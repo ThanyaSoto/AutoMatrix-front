@@ -1,29 +1,39 @@
 <div style="background-color: #AADADC;" class="d-flex justify-content-center align-items-center">
     <div class="d-flex justify-content-center align-items-start vh-100" style="background-color: white; width: 70%;" >
       <div class="flex-column text-center" style="margin-top: 5%;">
-        <h1 style="margin-bottom: 50px;">Red basada en Intenciones</h1> 
-        <p style="font-weight: bold; text-align: left;">Opcion 1</p>
+        <h1 style="margin-bottom: 50px;">Red basada en Intenciones</h1>
+        <div class="d-flex justify-content-center align-items-center">
+          <div style="margin-right: 5px;">
+            <p style="font-weight: bold; text-align: left;">Opcion 1</p>
         <select class="form-select mb-3" aria-label="Default select example" style="max-width: 500px;">
           <option selected>Open this select menu</option>
           <option value="1">One</option>
           <option value="2">Two</option>
           <option value="3">Three</option>
         </select>
-        <p style="font-weight: bold; text-align: left;">Opcion 2</p>
+          </div>
+          <div style="margin-right: 5px;">
+           <p style="font-weight: bold; text-align: left;">Opcion 2</p>
         <select class="form-select mb-3" aria-label="Default select example" style="max-width: 500px;">
           <option selected>Open this select menu</option>
           <option value="1">One</option>
           <option value="2">Two</option>
           <option value="3">Three</option>
-        </select>
+        </select> 
+          </div>
         
-        <p style="font-weight: bold; text-align: left;">Ontología</p>
+        <div style="margin-right: 5px;">
+          <p style="font-weight: bold; text-align: left;">Ontología</p>
         <select class="form-select mb-3" aria-label="Default select example" style="max-width: 500px;">
           <option selected>Open this select menu</option>
           <option value="1">One</option>
           <option value="2">Two</option>
           <option value="3">Three</option>
         </select>
+        </div>
+        
+        </div>
+        
         <div class="mb-3">
           <button type="button" class="btn btn-success" (click)="showSuccessAlert()">Enviar</button>
         </div>
