@@ -1,34 +1,95 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UsuarioService } from '../usuario.service';
+import { Usuario } from '../usuario';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-crear-usuario',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './crear-usuario.component.html',
-  styleUrl: './crear-usuario.component.css'
+  styleUrls: ['./crear-usuario.component.css']
 })
 export class CrearUsuarioComponent implements OnInit {
-  public MyForm:FormGroup = new FormGroup({});
-  id:number=0;
-  nombre:string='';
-  cargo:string='';
+  public MyForm: FormGroup = new FormGroup({});
 
-  constructor(private router:Router) { }
+  nombre: string = '';
+  correo: string = '';
+  contrasena: string = '';
+  rut: string = '';
+  rol: string = '';
+  usuario:Usuario = new Usuario(this.nombre,this.correo,this.contrasena,this.rut,this.rol)
+
+  constructor(private router: Router,private usuarioService:UsuarioService) {}
+
   ngOnInit(): void {
     this.crearFormulario();
   }
-  public crearUsuario(){
-    if(this.MyForm.valid){
 
+  public crearUsuario(): void {
+    if (this.MyForm.valid) {
+      this.usuario.nombre=this.MyForm.get('nombre')?.value;
+      this.usuario.correo=this.MyForm.get('correo')?.value;
+      this.usuario.contrasena=this.MyForm.get('contrasena')?.value;
+      this.usuario.rut=this.MyForm.get('rut')?.value;
+      this.usuario.rol=this.MyForm.get('rol')?.value;
+      this.usuarioService.crearUsuario(this.usuario).subscribe(dato=>{
       this.router.navigate(['Home']);
+      }
+    )
     }
   }
-  crearFormulario(){
+
+  crearFormulario(): void {
     this.MyForm = new FormGroup({
       nombre: new FormControl('', [Validators.required, Validators.minLength(4)]),
-      cargo: new FormControl('', [Validators.required, Validators.minLength(4)]),
+      contrasena: new FormControl('', [Validators.required, Validators.minLength(4)]),
+      correo: new FormControl('', [Validators.required, Validators.email]),
+      rut: new FormControl('', [Validators.required, Validators.minLength(9), this.rutValidator()]),
+      rol: new FormControl('Admin', Validators.required)
     });
+  }
+
+  // Validador de RUT
+  private rutValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const rut = control.value;
+      if (!rut) {
+        return null;
+      }
+      const valid = this.validateRut(rut);
+      return valid ? null : { rutInvalid: true };
+    };
+  }
+
+  // Función para validar el RUT
+  private validateRut(rut: string): boolean {
+    // Eliminar puntos y guion
+    rut = rut.replace(/\./g, '').replace(/-/g, '');
+    
+    if (rut.length < 9) {
+      return false;
+    }
+    
+    // Obtener el dígito verificador
+    const dv = rut.slice(-1).toUpperCase();
+    const rutWithoutDv = rut.slice(0, -1);
+    
+    let total = 0;
+    let factor = 2;
+    
+    // Calcular el dígito verificador
+    for (let i = rutWithoutDv.length - 1; i >= 0; i--) {
+      total += +rutWithoutDv[i] * factor;
+      factor = factor === 7 ? 2 : factor + 1;
+    }
+    
+    const dvCalc = 11 - (total % 11);
+    let dvStr = dvCalc === 11 ? '0' : dvCalc === 10 ? 'K' : dvCalc.toString();
+    
+    return dv === dvStr;
   }
 }

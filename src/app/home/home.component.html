@@ -1,65 +1,39 @@
-<div style="background-color: #9EB7E5;" class="d-flex justify-content-center align-items-center">
-    <div class="d-flex justify-content-center align-items-start vh-100" style="background-color: white; width: 70%;" >
-      <div class="flex-column text-center" style="margin-top: 5%;">
-        <h1 style="margin-bottom: 50px;">Red basada en Intenciones</h1>
-        <div class="d-flex justify-content-center align-items-center">
-          <div style="margin-right: 5px;">
-            <p style="font-weight: bold; text-align: left;">Opcion 1</p>
-        <select class="form-select mb-3" aria-label="Default select example" style="max-width: 500px;">
-          <option selected>Open this select menu</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
-          </div>
-          <div style="margin-right: 5px;">
-           <p style="font-weight: bold; text-align: left;">Opcion 2</p>
-        <select class="form-select mb-3" aria-label="Default select example" style="max-width: 500px;">
-          <option selected>Open this select menu</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select> 
-          </div>
-        
-        <div style="margin-right: 5px;">
-          <p style="font-weight: bold; text-align: left;">Topologia</p>
-        <select class="form-select mb-3" aria-label="Default select example" style="max-width: 500px;">
-          <option selected>Open this select menu</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
+<div style="background-color: #9EB7E5;" class="d-flex justify-content-center align-items-center vh-100">
+  <div class="d-flex justify-content-center align-items-start" style="background-color: white; width: 40%; height: 80%;">
+    <div class="flex-column text-center" style="margin-top: 5%;">
+      <h1 style="margin-bottom: 50px;">Red basada en Intenciones</h1>
+      <div class="d-flex justify-content-center align-items-center mb-3">
+        <div style="margin-right: 5px; width: 100%;">
+          <p style="font-weight: bold; text-align: left;">Ingrese su intención</p>
+          <input type="text" class="form-control" placeholder="Escriba aquí su intención" style="max-width: 500px; width: 100%;">
         </div>
-        
-        </div>
-        
-        <div class="mb-3">
-          <button type="button" class="btn btn-success" (click)="showSuccessAlert()">Enviar</button>
-        </div>
-        <div class="alert alert-success" role="alert" id="successAlert" style="display: flex;" *ngIf="mostrarAlerta">
-          Su intención fue enviada con éxito.
-        </div>
-        <div class="table-responsive" style="max-width: 950px;">
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th style="width: 10px; text-align: left;">#</th> 
-                <th style="text-align: left;">Historial</th> 
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="text-center">1</td>
-                <td style="text-align: left;">Primera Intencion</td> 
-              </tr>
-              <tr>
-                <td class="text-center">2</td>
-                <td style="text-align: left;">Segunda Intencion</td> 
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      </div>
+      <div class="mb-3">
+        <button type="button" class="btn btn-success" (click)="showSuccessAlert()">Enviar</button>
+      </div>
+      <div class="alert alert-success" role="alert" id="successAlert" style="display: flex;" *ngIf="mostrarAlerta">
+        Su intención fue enviada con éxito.
+      </div>
+      <div class="table-responsive" style="max-width: 950px;">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th style="width: 10px; text-align: left;">#</th>
+              <th style="text-align: left;">Historial</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-center">1</td>
+              <td style="text-align: left;">Primera Intención</td>
+            </tr>
+            <tr>
+              <td class="text-center">2</td>
+              <td style="text-align: left;">Segunda Intención</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
+</div>

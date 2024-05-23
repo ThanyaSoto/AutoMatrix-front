@@ -1,33 +1,66 @@
 <div style="background-color: #9EB7E5;" class="d-flex justify-content-center align-items-center vh-100">
-    <div class="d-flex justify-content-center align-items-start" style="background-color: white; width: 40%; height: 80%;">
-      <div class="flex-column text-center" style="margin-top: 5%; width: 70%;">
-        <h1 style="margin-bottom: 50px;">Iniciar Sesion</h1>
+  <div class="d-flex justify-content-center align-items-start" style="background-color: white; width: 40%; height: 80%;">
+    <div class="flex-column text-center" style="margin-top: 5%; width: 70%;">
+      <h1 style="margin-bottom: 50px;">Crear Usuario</h1>
+      
+      <form (ngSubmit)="crearUsuario()" [formGroup]="MyForm">
+        <div class="form-group" style="margin-bottom: 5%;">
+          <h3 class="small-title" style="text-align: left;">Correo</h3>
+          <input type="email" class="form-control" formControlName="correo" placeholder="Ingrese correo" style="width: 100%;" required>
+          <div *ngIf="MyForm.get('correo')?.hasError('required') && MyForm.get('correo')?.touched" class="text-danger">
+            El correo es requerido
+          </div>
+          <div *ngIf="MyForm.get('correo')?.hasError('email') && MyForm.get('correo')?.touched" class="text-danger">
+            El correo no es válido
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 5%;">
+          <h4 class="small-title" style="text-align: left;">Nombre</h4>
+          <input type="text" class="form-control" formControlName="nombre" placeholder="Ingrese nombre de usuario" style="width: 100%;" required>
+          <div *ngIf="MyForm.get('nombre')?.hasError('required') && MyForm.get('nombre')?.touched" class="text-danger">
+            El nombre es requerido
+          </div>
+          <div *ngIf="MyForm.get('nombre')?.hasError('minlength') && MyForm.get('nombre')?.touched" class="text-danger">
+            El nombre debe tener al menos 4 caracteres
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 5%;">
+          <h3 class="small-title" style="text-align: left;">Rut</h3>
+          <input type="text" class="form-control" formControlName="rut" placeholder="Ingrese rut" style="width: 100%;" required>
+          <div *ngIf="MyForm.get('rut')?.hasError('required') && MyForm.get('rut')?.touched" class="text-danger">
+            El rut es requerido
+          </div>
+          <div *ngIf="MyForm.get('rut')?.hasError('minlength') && MyForm.get('rut')?.touched" class="text-danger">
+            El rut debe tener al menos 9 caracteres
+          </div>
+          <div *ngIf="MyForm.get('rut')?.hasError('rutInvalid') && MyForm.get('rut')?.touched" class="text-danger">
+            El rut no es válido
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 5%;">
+          <h3 class="small-title" style="text-align: left;">Contraseña</h3>
+          <input type="password" class="form-control" formControlName="contrasena" placeholder="Ingrese contraseña" required>
+          <div *ngIf="MyForm.get('contrasena')?.hasError('required') && MyForm.get('contrasena')?.touched" class="text-danger">
+            La contraseña es requerida
+          </div>
+          <div *ngIf="MyForm.get('contrasena')?.hasError('minlength') && MyForm.get('contrasena')?.touched" class="text-danger">
+            La contraseña debe tener al menos 4 caracteres
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 5%;">
+          <h4 class="small-title" style="text-align: left;">Rol</h4>
+          <select class="form-control" formControlName="rol" required>
+            <option value="Admin">Admin</option>
+            <option value="Cliente">Cliente</option>
+          </select>
+        </div>
         
-        <form (ngSubmit)="crearUsuario()" [formGroup]="MyForm">
-          <div class="form-group" style="margin-bottom: 5%;">
-            <h4 style="text-align: left;">Nombre de usuario</h4>
-            <input type="text" class="form-control" formControlName="nombre" name="nombre" id="nombre" placeholder="Ingrese nombre de usuario" style="width: 100%;" required>
-            <div *ngIf="MyForm.get('nombre')?.hasError('required') && MyForm.get('nombre')?.touched" id="ErrorNombreRequired" class="text-danger">
-              El nombre es requerido
-            </div>
-            <div *ngIf="MyForm.get('nombre')?.hasError('minlength') && MyForm.get('nombre')?.touched" id="ErrorNombreMinlength" class="text-danger">
-              El nombre debe tener al menos 4 caracteres
-            </div>
-          </div>
-          
-          <div class="form-group"  style="margin-bottom: 5%;">
-            <h4 style="text-align: left;">Contraseña</h4>
-            <input type="password" class="form-control" formControlName="contrasena" name="contrasena" id="contrasena" placeholder="Ingrese contraseña" required >
-            <div *ngIf="MyForm.get('contrasena')?.hasError('required') && MyForm.get('contrasena')?.touched" id="ErrorContrasenaRequired" class="text-danger">
-              La contraseña es requerida
-            </div>
-            <div *ngIf="MyForm.get('contrasena')?.hasError('minlength') && MyForm.get('contrasena')?.touched" id="ErrorContrasenaMinlength" class="text-danger">
-              La contraseña debe tener al menos 4 caracteres
-            </div>
-          </div>
-          
-          <button [disabled]="MyForm.invalid" type="submit" class="btn btn-primary">Guardar</button>
-        </form>
-      </div>
+        <button [disabled]="MyForm.invalid" type="submit" class="btn btn-primary">Guardar</button>
+      </form>
     </div>
   </div>
+</div>
