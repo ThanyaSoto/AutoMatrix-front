@@ -12,8 +12,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit{
   public MyForm:FormGroup = new FormGroup({});
-  id:number=0;
-  nombre:string='';
+  correo:string='';
   contrasena:string='';
 
   constructor(private router:Router) { }
@@ -28,7 +27,7 @@ export class LoginComponent implements OnInit{
   }
   crearFormulario(){
     this.MyForm = new FormGroup({
-      nombre: new FormControl('', [Validators.required, Validators.minLength(4)]),
+      correo: new FormControl('', [Validators.required, Validators.email]),
       contrasena: new FormControl('', [Validators.required, Validators.minLength(4)]),
     });
   }

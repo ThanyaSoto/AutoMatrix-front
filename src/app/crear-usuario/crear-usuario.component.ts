@@ -4,7 +4,6 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators, AbstractContro
 import { Router } from '@angular/router';
 import { UsuarioService } from '../usuario.service';
 import { Usuario } from '../usuario';
-import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-crear-usuario',
@@ -31,11 +30,11 @@ export class CrearUsuarioComponent implements OnInit {
 
   public crearUsuario(): void {
     if (this.MyForm.valid) {
-      this.usuario.nombre=this.MyForm.get('nombre')?.value;
-      this.usuario.correo=this.MyForm.get('correo')?.value;
-      this.usuario.contrasena=this.MyForm.get('contrasena')?.value;
+      this.usuario.name=this.MyForm.get('nombre')?.value;
+      this.usuario.email=this.MyForm.get('correo')?.value;
+      this.usuario.password=this.MyForm.get('contrasena')?.value;
       this.usuario.rut=this.MyForm.get('rut')?.value;
-      this.usuario.rol=this.MyForm.get('rol')?.value;
+      this.usuario.role=this.MyForm.get('rol')?.value;
       this.usuarioService.crearUsuario(this.usuario).subscribe(dato=>{
       this.router.navigate(['Home']);
       }
@@ -53,7 +52,6 @@ export class CrearUsuarioComponent implements OnInit {
     });
   }
 
-  // Validador de RUT
   private rutValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const rut = control.value;
@@ -65,31 +63,24 @@ export class CrearUsuarioComponent implements OnInit {
     };
   }
 
-  // Función para validar el RUT
   private validateRut(rut: string): boolean {
-    // Eliminar puntos y guion
     rut = rut.replace(/\./g, '').replace(/-/g, '');
-    
     if (rut.length < 9) {
       return false;
     }
     
-    // Obtener el dígito verificador
     const dv = rut.slice(-1).toUpperCase();
     const rutWithoutDv = rut.slice(0, -1);
     
     let total = 0;
     let factor = 2;
     
-    // Calcular el dígito verificador
     for (let i = rutWithoutDv.length - 1; i >= 0; i--) {
       total += +rutWithoutDv[i] * factor;
       factor = factor === 7 ? 2 : factor + 1;
     }
-    
     const dvCalc = 11 - (total % 11);
     let dvStr = dvCalc === 11 ? '0' : dvCalc === 10 ? 'K' : dvCalc.toString();
-    
     return dv === dvStr;
   }
 }

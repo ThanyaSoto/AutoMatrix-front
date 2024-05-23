@@ -1,16 +1,16 @@
 export class Usuario {
-    nombre: string;
-    correo: string;
-    contrasena: string;
+    name: string;
+    email: string;
+    password: string;
     rut: string;
-    rol: string;
+    role: string;
 
-    constructor(nombre: string, correo: string, contrasena: string, rut: string, rol: string) {
-        this.nombre = nombre;
-        this.correo = correo;
-        this.contrasena = contrasena;
+    constructor(name: string, email: string, password: string, rut: string, role: string) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
         this.rut = rut;
-        this.rol = rol;
+        this.role = role;
     }
 }
 
