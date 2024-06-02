@@ -1,25 +1,26 @@
+// action.service.ts
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Action } from './action';
+import { Observable } from 'rxjs';
+import { Action } from './usuario';
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class ActionService {
+  private actionsURL = 'http://localhost:3000/actions';
 
-  private actionsURL='http://localhost:3000/actions'
-  
-  constructor(private httpClient:HttpClient) { }
-  public getAllActions(){
-    return this.httpClient.get(`${this.actionsURL}`);
+  constructor(private httpClient: HttpClient) {}
+
+  public getAllActions(): Observable<Action[]> {
+    return this.httpClient.get<Action[]>(this.actionsURL);
   }
 
-  public crearAction(usuario:Action){
-    return this.httpClient.post(`${this.actionsURL}`,usuario);
+  public crearAction(action: Action): Observable<Action> {
+    return this.httpClient.post<Action>(this.actionsURL, action);
   }
 
-  public getActionId(id:number){
-    return this.httpClient.get(`${this.actionsURL}/${id}`);
+  public getActionId(id: number): Observable<Action> {
+    return this.httpClient.get<Action>(`${this.actionsURL}/${id}`);
   }
 }

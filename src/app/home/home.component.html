@@ -1,39 +1,47 @@
 <div style="background-color: #9EB7E5;" class="d-flex justify-content-center align-items-center vh-100">
-  <div class="d-flex justify-content-center align-items-start" style="background-color: white; width: 40%; height: 80%;">
-    <div class="flex-column text-center" style="margin-top: 5%;">
+  <div class="d-flex" style="background-color: white; width: 80%; height: 90%;">
+    <!-- Columna para las intenciones -->
+    <div class="flex-column text-center" style="width: 50%; margin-top: 5%; padding: 20px; overflow-y: auto;">
       <h1 style="margin-bottom: 50px;">Red basada en Intenciones</h1>
       <div class="d-flex justify-content-center align-items-center mb-3">
         <div style="margin-right: 5px; width: 100%;">
           <p style="font-weight: bold; text-align: left;">Ingrese su intención</p>
-          <input type="text" class="form-control" placeholder="Escriba aquí su intención" style="max-width: 500px; width: 100%;">
+          <input type="text" [(ngModel)]="nuevaIntencion" class="form-control" placeholder="Escriba aquí su intención" style="max-width: 100%; width: 100%;">
         </div>
       </div>
       <div class="mb-3">
-        <button type="button" class="btn btn-success" (click)="showSuccessAlert()">Enviar</button>
+        <button type="button" class="btn btn-success" (click)="enviarIntencion()">Enviar</button>
       </div>
       <div class="alert alert-success" role="alert" id="successAlert" style="display: flex;" *ngIf="mostrarAlerta">
         Su intención fue enviada con éxito.
       </div>
-      <div class="table-responsive" style="max-width: 950px;">
+      <div class="table-responsive" style="max-width: 100%;">
         <table class="table table-hover">
           <thead>
             <tr>
-              <th style="width: 10px; text-align: left;">#</th>
-              <th style="text-align: left;">Historial</th>
+              <th style="width: 10px; text-align: left;">ID</th>
+              <th style="text-align: left;">Descripción</th>
+              <th style="text-align: left;">¿Es válido?</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td class="text-center">1</td>
-              <td style="text-align: left;">Primera Intención</td>
-            </tr>
-            <tr>
-              <td class="text-center">2</td>
-              <td style="text-align: left;">Segunda Intención</td>
+            <tr *ngFor="let accion of acciones; let i = index">
+              <td class="text-center">{{ i + 1 }}</td>
+              <td style="text-align: left;">{{ accion.description }}</td>
+              <td class="is-valid-column" style="text-align: left;">
+                <i *ngIf="accion.isValid" class="fas fa-check-circle text-success"></i>
+                <i *ngIf="!accion.isValid" class="fas fa-times-circle text-danger"></i>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
+    </div>
+
+    <!-- Columna para los datos del endpoint -->
+    <div class="flex-column text-left" style="width: 50%; margin-top: 5%; padding: 20px; overflow-y: auto;">
+      <h3>Topology Data</h3>
+      <pre>{{ topology | json }}</pre>
     </div>
   </div>
 </div>

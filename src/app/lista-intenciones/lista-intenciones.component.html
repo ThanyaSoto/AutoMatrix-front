@@ -1,0 +1,45 @@
+<div style="background-color: #9EB7E5;" class="d-flex justify-content-center align-items-center vh-100">
+  <div class="d-flex" style="background-color: white; width: 80%; height: 90%;">
+    <!-- Lista de usuarios -->
+    <div class="flex-column p-3" style="width: 20%; background-color: #f1f1f1; overflow-y: auto;">
+      <h4 class="text-center">Usuarios</h4>
+      <ul class="list-group">
+        <li *ngFor="let usuario of usuarios" class="list-group-item d-flex justify-content-between align-items-center">
+          <span (click)="onSelectUser(usuario)">{{ usuario.name }}</span>
+          <button *ngIf="isAdmin" (click)="eliminarUsuario(usuario.id)" class="btn btn-danger btn-sm">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Tabla -->
+    <div class="flex-column text-center" style="width: 80%; margin-top: 5%;">
+      <h1 style="margin-bottom: 50px;">Red basada en Intenciones</h1>
+      <div class="table-responsive" style="max-width: 950px; margin: 0 auto;">
+        <table class="table table-hover" *ngIf="selectedUser && selectedUser.actions && selectedUser.actions.length">
+          <thead>
+            <tr>
+              <th style="text-align: left;">ID</th>
+              <th style="text-align: left;">Description</th>
+              <th class="is-valid-column" style="text-align: left; width: 200px;">Is Valid</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let action of selectedUser.actions; let i = index">
+              <td class="text-center">{{ action.id }}</td>
+              <td style="text-align: left;">{{ action.description }}</td>
+              <td class="is-valid-column" style="text-align: left;">
+                <i *ngIf="action.isValid" class="fas fa-check-circle text-success"></i>
+                <i *ngIf="!action.isValid" class="fas fa-times-circle text-danger"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div *ngIf="selectedUser && selectedUser.actions && !selectedUser.actions.length" class="alert alert-info">
+          No actions available for this user.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
