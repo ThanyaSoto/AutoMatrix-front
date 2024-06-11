@@ -9,6 +9,7 @@ export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
   private userName = new BehaviorSubject<string | null>(this.getUserNameFromStorage());
   private userRole = new BehaviorSubject<string | null>(this.getUserRoleFromStorage());
+  private userEmail = new BehaviorSubject<string | null>(this.getUserEmailFromStorage());
 
   get isLoggedIn() {
     return this.loggedIn.asObservable();
@@ -20,6 +21,15 @@ export class AuthService {
 
   get currentUserRole() {
     return this.userRole.asObservable();
+  }
+  get currentUserEmail() {
+    return this.userEmail.asObservable();
+  }
+  private getUserEmailFromStorage(): string | null {
+    if (typeof window !== 'undefined' && localStorage) {
+      return localStorage.getItem('email');
+    }
+    return null;
   }
 
   private hasToken(): boolean {

@@ -29,27 +29,30 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.authService.currentUserName.subscribe(userName => {
-      if (userName) {
-        this.usuarioService.getUserByEmail(userName).subscribe(user => {
+    this.authService.currentUserName.subscribe(username => {
+      console.log(username)
+      if (username) {
+        this.usuarioService.getUserByUsername(username).subscribe(user => {
+          console.log("user: "+user)
           if (user) {
             this.usuario = user;
-            this.acciones = user.actions ?? []; // Asegúrate de que acciones sea un array
+            this.acciones = user.actions ?? [];
           } else {
             console.error('Usuario no encontrado');
           }
         });
       }
     });
-
-    // Obtener los datos del endpoint
     this.httpClient.get('http://localhost:3000/topology').subscribe(data => {
       this.topology = data;
     });
   }
 
   enviarIntencion(): void {
+    console.log("intencion "+this.nuevaIntencion)
+    console.log("usuario "+this.usuario)
     if (this.nuevaIntencion && this.usuario) {
+      
       const nuevaAccion: Action = {
         id: this.acciones.length + 1,
         description: this.nuevaIntencion,
@@ -68,6 +71,8 @@ export class HomeComponent implements OnInit {
           this.usuario.actions = this.usuario.actions ?? [];
           this.usuario.actions.push(action);
           if (this.usuario.id !== undefined) {
+            console.log("id"+this.usuario.id)
+            console.log("usuario"+this.usuario)
             this.usuarioService.actualizarUsuario(this.usuario.id, this.usuario).subscribe();
           }
         }
