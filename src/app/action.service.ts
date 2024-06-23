@@ -16,9 +16,12 @@ export class ActionService {
     return this.httpClient.get<Action[]>(this.actionsURL);
   }
 
-  public crearAction(action: Action): Observable<Action> {
-    return this.httpClient.post<Action>(this.actionsURL, action);
+  public crearAction(action: Partial<Action>, userId: number): Observable<Action> {
+
+    const actionWithUserId = { ...action, userId };
+    return this.httpClient.post<Action>(this.actionsURL, actionWithUserId);
   }
+  
 
   public getActionId(id: number): Observable<Action> {
     return this.httpClient.get<Action>(`${this.actionsURL}/${id}`);

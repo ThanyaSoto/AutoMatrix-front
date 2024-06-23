@@ -30,10 +30,10 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.currentUserName.subscribe(username => {
-      console.log(username)
+      console.log(username);
       if (username) {
         this.usuarioService.getUserByUsername(username).subscribe(user => {
-          console.log("user: "+user)
+          console.log("user: " + user);
           if (user) {
             this.usuario = user;
             this.acciones = user.actions ?? [];
@@ -49,34 +49,37 @@ export class HomeComponent implements OnInit {
   }
 
   enviarIntencion(): void {
-    console.log("intencion "+this.nuevaIntencion)
-    console.log("usuario "+this.usuario)
+    console.log("intencion " + this.nuevaIntencion);
+
     if (this.nuevaIntencion && this.usuario) {
       
-      const nuevaAccion: Action = {
-        id: this.acciones.length + 1,
+      const nuevaAccion: Partial<Action> = {
         description: this.nuevaIntencion,
-        isValid: true // o algún valor predeterminado
+        isValid:false
       };
 
-      this.actionService.crearAction(nuevaAccion).subscribe((action: Action) => {
-        // Actualizar la lista de acciones del usuario en el frontend
-        this.acciones.push(action);
-        this.mostrarAlerta = true;
-        this.nuevaIntencion = '';
-        setTimeout(() => this.mostrarAlerta = false, 3000);
+      if (this.usuario.id !== undefined) {
+        console.log("usuario " + this.usuario.id);
+        this.actionService.crearAction(nuevaAccion, this.usuario.id).subscribe((action: Action) => {
+          this.acciones.push(action);
+          this.mostrarAlerta = true;
+          this.nuevaIntencion = '';
+          setTimeout(() => this.mostrarAlerta = false, 3000);
 
-        // Actualizar la lista de acciones del usuario en la base de datos
-        if (this.usuario) {
-          this.usuario.actions = this.usuario.actions ?? [];
-          this.usuario.actions.push(action);
-          if (this.usuario.id !== undefined) {
-            console.log("id"+this.usuario.id)
-            console.log("usuario"+this.usuario)
-            this.usuarioService.actualizarUsuario(this.usuario.id, this.usuario).subscribe();
-          }
-        }
-      });
+          // Actualizar la lista de acciones del usuario en la base de datos
+          /*if (this.usuario) {
+            this.usuario.actions = this.usuario.actions ?? [];
+            this.usuario.actions.push(action);
+            if (this.usuario.id !== undefined) {
+              console.log("id" + this.usuario.id);
+              console.log("usuario" + this.usuario);
+              this.usuarioService.actualizarUsuario(this.usuario.id, this.usuario).subscribe();
+            }
+          }*/
+        });
+      } else {
+        console.error('El usuario no tiene un ID definido.');
+      }
     }
   }
 }
